@@ -2,11 +2,12 @@ from tkinter import *
 import webbrowser
 from tkinter import messagebox
 import json
+import tkinter.ttk as ttk
 
 # Initialize window
 window = Tk()
 window.title("A-Z Dictionary")
-window.geometry("1000x700")
+window.geometry("1000x950")
 window.config(bg="#458AFF")
 window.tk.call("wm", "iconphoto", window._w, PhotoImage(file="Images/dict-removebg-preview(2).png"))
 
@@ -105,9 +106,14 @@ next_btn = Button(entry_frame, text="Next", relief=GROOVE, bg="#458AFF", command
 previous_btn.grid(row=0, column=0)
 next_btn.grid(row=0, column=3, padx=17)
 
+font_slider = ttk.Scale(entry_frame, from_=0, to=100, orient=HORIZONTAL, value=45, length=190)
+font_slider.grid(row=0, column=4, padx=8)
 
-text_area = Text(width=120, height=30)
-text_area.grid(row=2, column=1, padx=17, pady=15)
+slider_label = Label(text="0")
+slider_label.pack(pady=10)
+
+text_area = Text(width=100, height=48)
+text_area.grid(row=2, column=1, pady=15)
 
 
 window.mainloop()
