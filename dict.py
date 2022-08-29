@@ -25,9 +25,10 @@ def search():
     get_meaning = entry.get().lower()
     if get_meaning != "":
         try:
-            text_area.delete("1.0", "end")
-            text_area.insert(END, data[get_meaning])
+            # text_area.delete("1.0", "end")
+            # text_area.insert(END, data[get_meaning])
             # entry.delete(0, END)
+            text_label.config(text=data[get_meaning])
         except KeyError:
             ask = messagebox.askyesno(title="Search Online", message="Sorry Word not found! Would you like to search online")
             if ask:
@@ -55,8 +56,7 @@ def previous_word():
             result = None
         entry.delete(0, END)
         entry.insert(0, result)
-        text_area.delete("1.0", END)
-        text_area.insert(END, data[result])
+        text_label.config(text=data[result])
     else:
         messagebox.showerror(title="Error", message="Search bar is still empty")
 
@@ -72,14 +72,14 @@ def next_word():
             result = None
         entry.delete(0, END)
         entry.insert(0, result)
-        text_area.delete("1.0", END)
-        text_area.insert(END, data[result])
+        text_label.config(text=data[result])
     else:
         messagebox.showerror(title="Error", message="Search bar is still empty")
 
 
-def font_toggle():
-    slider_label.config()
+def font_size():
+    slider_label.config(text=int(scale_1.get()))
+    text_label.config(font=("arial", int(scale_1.get())))
 
 
 # label1 = Label(text="A-Z English Dictionary", bg="#458AFF", font=("arial", 15, "normal"))
@@ -87,43 +87,45 @@ def font_toggle():
 
 entry_img = PhotoImage(file="Images/entry_image.png")
 entry_frame = Frame(window, bg="#458AFF", width=100)
-entry_frame.grid(row=1, column=1, padx=140, pady=6)
+entry_frame.pack(padx=140, pady=6)
 
 entry_bg = Label(entry_frame, image=entry_img, bg="#458AFF")
-entry_bg.grid(row=0, column=1)
+entry_bg.pack()
 entry = Entry(entry_frame, width=22)
 # Entry Placeholder
 entry.insert(0, "Search Here")
 entry.config(state=DISABLED)
 # Bind to function click
 entry.bind("<Button-1>", click)
-entry.grid(row=0, column=1, padx=120, pady=10)
+entry.pack()
 
 
 # frame = Frame(window)
 # frame.grid(row=0, column=2)
 search_img = PhotoImage(file="Images/Search _Button.png")
 search_btn = Button(image=search_img, borderwidth=0, bg="#458AFF", command=search)
-search_btn.place(x=550, y=13)
+search_btn.pack()
 # Previous and next button
 previous_img = ImageTk.PhotoImage(Image.open("Images/back.jpeg"))
 previous_btn = Button(entry_frame, image=previous_img, relief=GROOVE, bg="#458AFF", command=previous_word)
 next_img = ImageTk.PhotoImage(Image.open("Images/back - Copy.jpeg"))
 next_btn = Button(entry_frame, image=next_img, relief=GROOVE, bg="#458AFF", command=next_word)
-previous_btn.grid(row=0, column=0)
-next_btn.grid(row=0, column=3, padx=17)
+previous_btn.pack()
+next_btn.pack()
 
 status_bar = Label(text="", bd=1, relief=GROOVE, anchor=E)
 # status_bar.grid(row=3, column=0)
 
-font_slider = ttk.Scale(from_=0, to=100, orient=HORIZONTAL, value=45, length=190)
-font_slider.grid(row=3, column=1, ipadx=60)
+scale_1 = ttk.Scale(window, orient="horizontal", length=200, from_=0, to=100, value=10)
+scale_1.pack()
 
-slider_label = Label(text="45", bg="#458AFF")
-slider_label.place(x=288, y=914)
+slider_label = Label(text="10", bg="#458AFF")
+slider_label.pack()
+scale_1.config(command=lambda e: font_size())
 
-text_area = Text(width=100, height=48)
-text_area.grid(row=2, column=1, pady=15)
+
+text_label = Label(text="", anchor="nw", wraplength=790, padx=15, pady=10)
+text_label.pack(padx=10, pady=10, fill=BOTH, expand=True)
 
 
 window.mainloop()
