@@ -5,6 +5,7 @@ from PIL import ImageTk, Image
 import json
 import webbrowser
 from tkinter import filedialog
+from tkinter import ttk
 import pygame
 
 
@@ -24,11 +25,15 @@ with open ("dictionary.json","r") as json_obj:
 		data = json.load(json_obj)
 
 
-def log():
+def log(event):
 	try:
 		sreac = search.get().lower()
 		text.delete("1.0","end")
+		
 		text.insert(tk.END,(data[sreac]))
+		 # or text.insert(tk.END,(data[text.get("1.0","active")]))
+
+		# text.insert(tk.END,data[sreac])
 		status_bar.config(text=f"{sreac}")
 		# search.delete(0,END)
 	except KeyError:
@@ -39,7 +44,8 @@ def log():
 			
 
 def speak():
-	song =text.get("1.0","end")
+	pass
+	# song =text.get("1.0","end")
 	# pygame.mixer.music.load(song)
 	# pygame.mixer.music.play(loops=0)
 
@@ -75,7 +81,8 @@ def move_for():
 	search.insert(0,result)
 	text.delete("1.0","end")
 	status_bar.config(text=f"{result}")
-	text.insert(END,data[result])
+	text.insert(tk.END,data[result])
+
 def back_for():
 	get = search.get().lower()
 	current_word = list(data)
@@ -88,12 +95,41 @@ def back_for():
 	search.insert(0,result)
 	text.delete("1.0","end")
 	status_bar.config(text=f"{result}")
-	text.insert(END,data[result])
+	text.insert(tk.END,data[result])
+global sul
+sul=10
+def increase():
+	global sul
+	sul += 1
+	get = text.get("1.0","end")
+	current_word = list(get)
+	try:
+		result = current_word[current_word.index(get)]
+	except (ValueError , IndexError):
+		result = None
+		text.config(font=("Arial",f"{sul}","normal"))
+		num.delete(0,END)
+		num.insert(0,int(sul))
+def discrease():
+	global sul
+	sul -= 1
+	get = text.get("1.0","end")
+	current_word = list(get)
+	try:
+		result = current_word[current_word.index(get)]
+	except (ValueError , IndexError):
+		result = None
+		text.config(font=("Arial",f"{sul}","normal"))
+		num.delete(0,END)
+		num.insert(0,sul)
 
-icon = PhotoImage(file="search.png")
+def up(event):
+	num2 = num.get()
+	text.config(font=("Arial",f"{num2}","normal"))
+icon = PhotoImage(file="Search Button.png")
 photo = PhotoImage(file="volumeup.png")
-forward = PhotoImage(file="fastforward_.png")
-backward = PhotoImage(file="fastrewind.png")
+forward = ImageTk.PhotoImage(Image.open("back.jpeg"))
+backward = ImageTk.PhotoImage(Image.open("forward.jpeg"))
 
 
 
@@ -102,33 +138,48 @@ search.pack(pady=20)
 search.insert(0,"Enter your word")
 search.config(state=DISABLED)
 search.bind("<Button-1>",act)
+search.bind("<Return>",log)
 # search.bind("<Button-1>",save)
 
 
-search_but= Button(image=icon,bg="#0f00f0",borderwidth=0,command=log)
-search_but.place(x=580,y=8)
+search_but= Button(image=icon,bg="#0f00f0",borderwidth=0,command=lambda:log(log))
+search_but.place(x=580,y=15)
 
+
+zoom = Button(text="+",bg="#0f00f0",borderwidth=0,command=increase)
+zoom.place(x=60,y=0)
+
+
+dis = Button(text="-",bg="#0f00f0",borderwidth=0,command=discrease)
+dis.place(x=0,y=0)
 
 speak_but= Button(image=photo,borderwidth=0,bg="#0f00f0",command=speak)
 speak_but.place(x=480,y=45)
 
 
-
-text = Text(window, height=40, width=65,font=("Arial black",10,"normal"),bg="#ffffff",selectbackground="gray",selectforeground="black",borderwidth=0)
-text.pack(pady=34)
-scroll = tk.Scrollbar(window,orient=tk.VERTICAL, command=text.yview)
-text.configure(yscrollcommand=scroll.set)
-scroll.place(x=680,y=88,height=620)
+# 
+text = Text(window, height=40, width=65,bg="#ffffff",borderwidth=0)
+text.pack(pady=34,expand=False,fill=BOTH)
 
 speak_bu= Button(image=backward,borderwidth=0,bg="#0f00f0",command=back_for)
 speak_bu.place(x=0,y=45)
 speak_bu= Button(image=forward,borderwidth=0,bg="#0f00f0",command=move_for)
 speak_bu.place(x=650,y=45)
 
+num = Entry(font=5,width=3,selectbackground="gray",borderwidth=0)
+num.bind("<Return>",up)
+num.place(x=30,y=0)
+
+num.insert(0,"10")
 
 status_bar = Label(window, text='', relief= GROOVE,anchor=N,bg="#0f00f0",width=30,highlightthickness=2.4,bd=0)
 status_bar.place(x=260,y=60)
 
+# status_ba = Label(window, text='', relief= GROOVE,anchor=N,bg="#0f00f0",width=2,highlightthickness=2.4,bd=0)
+# status_ba.place(x=33,y=0)
+
+# volum_slider = ttk.Scale(from_=7,to=20,orient=HORIZONTAL,command=increase,value=1,length=30)
+# volum_slider.place(x=0,y=0)
 
 
 window.mainloop()
