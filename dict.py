@@ -3,11 +3,12 @@ import webbrowser
 from tkinter import messagebox
 import json
 import tkinter.ttk as ttk
+from PIL import ImageTk, Image
 
 # Initialize window
 window = Tk()
 window.title("A-Z Dictionary")
-window.geometry("1000x950")
+window.geometry("1000x970")
 window.config(bg="#458AFF")
 window.tk.call("wm", "iconphoto", window._w, PhotoImage(file="Images/dict-removebg-preview(2).png"))
 
@@ -77,6 +78,10 @@ def next_word():
         messagebox.showerror(title="Error", message="Search bar is still empty")
 
 
+def font_toggle():
+    slider_label.config()
+
+
 # label1 = Label(text="A-Z English Dictionary", bg="#458AFF", font=("arial", 15, "normal"))
 # label1.grid(row=0, column=1)
 
@@ -97,20 +102,25 @@ entry.grid(row=0, column=1, padx=120, pady=10)
 
 # frame = Frame(window)
 # frame.grid(row=0, column=2)
-search_img = PhotoImage(file="Images/search.png")
-search_btn = Button(entry_frame, image=search_img, borderwidth=0, bg="#458AFF", command=search)
-search_btn.grid(row=0, column=2)
+search_img = PhotoImage(file="Images/Search _Button.png")
+search_btn = Button(image=search_img, borderwidth=0, bg="#458AFF", command=search)
+search_btn.place(x=550, y=13)
 # Previous and next button
-previous_btn = Button(entry_frame, text="Previous", relief=GROOVE, bg="#458AFF", command=previous_word)
-next_btn = Button(entry_frame, text="Next", relief=GROOVE, bg="#458AFF", command=next_word)
+previous_img = ImageTk.PhotoImage(Image.open("Images/back.jpeg"))
+previous_btn = Button(entry_frame, image=previous_img, relief=GROOVE, bg="#458AFF", command=previous_word)
+next_img = ImageTk.PhotoImage(Image.open("Images/back - Copy.jpeg"))
+next_btn = Button(entry_frame, image=next_img, relief=GROOVE, bg="#458AFF", command=next_word)
 previous_btn.grid(row=0, column=0)
 next_btn.grid(row=0, column=3, padx=17)
 
-font_slider = ttk.Scale(entry_frame, from_=0, to=100, orient=HORIZONTAL, value=45, length=190)
-font_slider.grid(row=0, column=4, padx=8)
+status_bar = Label(text="", bd=1, relief=GROOVE, anchor=E)
+# status_bar.grid(row=3, column=0)
 
-slider_label = Label(text="0")
-slider_label.pack(pady=10)
+font_slider = ttk.Scale(from_=0, to=100, orient=HORIZONTAL, value=45, length=190)
+font_slider.grid(row=3, column=1, ipadx=60)
+
+slider_label = Label(text="45", bg="#458AFF")
+slider_label.place(x=288, y=914)
 
 text_area = Text(width=100, height=48)
 text_area.grid(row=2, column=1, pady=15)
