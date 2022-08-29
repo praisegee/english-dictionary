@@ -21,10 +21,11 @@ with open("dictionary.json") as the_dict:
 
 
 # FUnction for searching
-def search():
+def search(event):
     get_meaning = entry.get().lower()
     if get_meaning != "":
         try:
+            text_label.config(state=NORMAL)
             text_label.delete("1.0", "end")
             text_label.insert(END, data[get_meaning])
             text_label.config(state=DISABLED)
@@ -111,6 +112,7 @@ entry.insert(0, "Search Here")
 entry.config(state=DISABLED)
 # Bind to function click
 entry.bind("<Button-1>", click)
+entry.bind("<Return>", search)
 entry.place(x=12, y=10)
 
 
@@ -121,11 +123,11 @@ search_btn = Button(image=search_img, borderwidth=0, bg="#458AFF", command=searc
 search_btn.place(x=616, y=13)
 # Previous and next button
 previous_img = ImageTk.PhotoImage(Image.open("Images/back.jpeg"))
-previous_btn = Button(entry_frame, image=previous_img, relief=GROOVE, bg="#458AFF", command=previous_word)
+previous_btn = Button(image=previous_img, relief=GROOVE, bg="#458AFF", command=previous_word)
 next_img = ImageTk.PhotoImage(Image.open("Images/back - Copy.jpeg"))
-next_btn = Button(entry_frame, image=next_img, relief=GROOVE, bg="#458AFF", command=next_word)
-previous_btn.pack()
-next_btn.pack()
+next_btn = Button(image=next_img, relief=GROOVE, bg="#458AFF", command=next_word)
+previous_btn.place(x=40, y=15)
+next_btn.place(x=100, y=15)
 
 # status_bar = Label(text="", bd=1, relief=GROOVE, anchor=E)
 # status_bar.grid(row=3, column=0)
@@ -142,7 +144,8 @@ scale_1.config(command=lambda e: font_size())
 
 
 text_label = Text(padx=15, pady=10)
-text_label.pack(padx=10, pady=10, fill=BOTH, expand=True)
+text_label.config(state=DISABLED)
+text_label.pack(padx=40, pady=10, fill=BOTH, expand=True)
 
 
 window.mainloop()
