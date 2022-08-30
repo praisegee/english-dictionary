@@ -37,15 +37,13 @@ massage = """
 	You can use the volume button to read
 
 """
-mass = """
-	rate us
-"""
+
 mas="""
 	OREX Dictionary is best dictionary you can ever find
 """
 
 
-dey = massage,mass,mas
+dey = massage,mas
 song = ra.choice(dey)
 
 
