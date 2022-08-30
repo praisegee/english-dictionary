@@ -5,11 +5,13 @@ import json
 import tkinter.ttk as ttk
 from PIL import ImageTk, Image
 import pyttsx3
+# import speech_recognition as sr
 
 # Initialize window
 window = Tk()
 window.title("A-Z Dictionary")
 window.geometry("1000x970+200+200")
+window.resizable(width=False, height=False)
 window.config(bg="#458AFF")
 window.tk.call("wm", "iconphoto", window._w, PhotoImage(file="Images/dict-removebg-preview(2).png"))
 
@@ -32,6 +34,10 @@ def search(event):
             text_label.delete("1.0", "end")
             text_label.insert(END, data[get_meaning])
             text_label.config(state=DISABLED)
+            play_entry.config(state=NORMAL)
+            play_entry.delete(0, END)
+            play_entry.insert(END, get_meaning)
+            play_entry.config(state=DISABLED)
             # entry.delete(0, END)
             # text_label.config(text=data[get_meaning])
         except KeyError:
@@ -65,6 +71,10 @@ def previous_word():
         text_label.delete("1.0", END)
         text_label.insert(END, data[result])
         text_label.config(state=DISABLED)
+        play_entry.config(state=NORMAL)
+        play_entry.delete(0, END)
+        play_entry.insert(END, result)
+        play_entry.config(state=DISABLED)
     else:
         messagebox.showerror(title="Error", message="Search bar is still empty")
 
@@ -84,6 +94,10 @@ def next_word():
         text_label.delete("1.0", END)
         text_label.insert(END, data[result])
         text_label.config(state=DISABLED)
+        play_entry.config(state=NORMAL)
+        play_entry.delete(0, END)
+        play_entry.insert(END, result)
+        play_entry.config(state=DISABLED)
     else:
         messagebox.showerror(title="Error", message="Search bar is still empty")
 
@@ -98,6 +112,15 @@ def binder(event):
     getter = slider_label.get()
     scale_1.config(value=int(getter))
     text_label.config(font=("arial", getter))
+
+
+def play_sound():
+    get_text = play_entry.get()
+    if get_text == "":
+        pass
+    else:
+        engine.say(get_text)
+        engine.runAndWait()
 
 
 # label1 = Label(text="A-Z English Dictionary", bg="#458AFF", font=("arial", 15, "normal"))
@@ -122,7 +145,7 @@ entry.place(x=12, y=10)
 # frame = Frame(window)
 # frame.grid(row=0, column=2)
 search_img = PhotoImage(file="Images/search_btn.png")
-search_btn = Button(image=search_img, borderwidth=0, bg="#458AFF", command=search)
+search_btn = Button(image=search_img, borderwidth=0, bg="#458AFF", command=lambda: search(search))
 search_btn.place(x=616, y=13)
 # Previous and next button
 previous_img = ImageTk.PhotoImage(Image.open("Images/previous_ button.png"))
@@ -132,23 +155,33 @@ next_btn = Button(image=next_img, relief=GROOVE, bg="#458AFF", command=next_word
 previous_btn.place(x=40, y=15)
 next_btn.place(x=100, y=15)
 
+play_img = PhotoImage(file="Images/volumeup.png")
+play_btn = Button(image=play_img, borderwidth=0, relief=FLAT, bg="#458AFF", command=play_sound)
+play_btn.pack()
+
 # status_bar = Label(text="", bd=1, relief=GROOVE, anchor=E)
 # status_bar.grid(row=3, column=0)
 
 scale_1 = ttk.Scale(window, orient="horizontal", length=200, from_=0, to=100, value=10)
-scale_1.pack()
+scale_1.place(x=760, y=92)
 
 slider_label = Entry(width=4)
-num = "10"
 slider_label.insert(0, "10")
-slider_label.pack()
+slider_label.place(x=710, y=89)
 slider_label.bind("<Return>", binder)
 scale_1.config(command=lambda e: font_size())
+
+play_entry = Entry()
+play_entry.config(state=DISABLED)
+# play_entry.pack()
 
 
 text_label = Text(padx=15, pady=10)
 text_label.config(state=DISABLED)
 text_label.pack(padx=40, pady=10, fill=BOTH, expand=True)
+scroll = Scrollbar(orient=VERTICAL, command=text_label.yview)
+text_label.configure(yscrollcommand=scroll.set)
+scroll.place(x=970, y=119, height=840)
 
 
 window.mainloop()
