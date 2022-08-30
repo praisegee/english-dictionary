@@ -4,13 +4,16 @@ from tkinter import messagebox
 import json
 import tkinter.ttk as ttk
 from PIL import ImageTk, Image
+import pyttsx3
 
 # Initialize window
 window = Tk()
 window.title("A-Z Dictionary")
-window.geometry("1000x970")
+window.geometry("1000x970+200+200")
 window.config(bg="#458AFF")
 window.tk.call("wm", "iconphoto", window._w, PhotoImage(file="Images/dict-removebg-preview(2).png"))
+
+engine = pyttsx3.init()
 
 with open("dictionary.json") as the_dict:
     data = json.load(the_dict)
@@ -118,13 +121,13 @@ entry.place(x=12, y=10)
 
 # frame = Frame(window)
 # frame.grid(row=0, column=2)
-search_img = PhotoImage(file="Images/Search _Button.png")
+search_img = PhotoImage(file="Images/search_btn.png")
 search_btn = Button(image=search_img, borderwidth=0, bg="#458AFF", command=search)
 search_btn.place(x=616, y=13)
 # Previous and next button
-previous_img = ImageTk.PhotoImage(Image.open("Images/back.jpeg"))
+previous_img = ImageTk.PhotoImage(Image.open("Images/previous_ button.png"))
 previous_btn = Button(image=previous_img, relief=GROOVE, bg="#458AFF", command=previous_word)
-next_img = ImageTk.PhotoImage(Image.open("Images/back - Copy.jpeg"))
+next_img = ImageTk.PhotoImage(Image.open("Images/next_button.png"))
 next_btn = Button(image=next_img, relief=GROOVE, bg="#458AFF", command=next_word)
 previous_btn.place(x=40, y=15)
 next_btn.place(x=100, y=15)
