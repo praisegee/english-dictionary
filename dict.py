@@ -10,7 +10,7 @@ import pyttsx3
 # Initialize window
 window = Tk()
 window.title("A-Z Dictionary")
-window.geometry("1000x970+200+200")
+window.geometry("1000x970+200+50")
 window.resizable(width=False, height=False)
 window.config(bg="#458AFF")
 window.tk.call("wm", "iconphoto", window._w, PhotoImage(file="Images/dict-removebg-preview(2).png"))

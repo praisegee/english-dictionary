@@ -2,7 +2,7 @@ from tkinter import *
 
 window = Tk()
 window.title("A-Z Dictionary")
-window.geometry("620x690")
+window.geometry("620x690+300+150")
 window.resizable(width=FALSE, height=FALSE)
 window.tk.call("wm", "iconphoto", window._w, PhotoImage(file="Images/dict-removebg-preview(2).png"))
 window.config(bg="#458AFF")
