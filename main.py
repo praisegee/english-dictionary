@@ -12,7 +12,7 @@ window = tk.Tk()
 window.geometry("800x500")
 # window.config(bg="Light Grey")
 window.title("Welcome")
-window.tk.call("wm", "iconphoto", window._w, PhotoImage(file = "Dictionary image_1.png"))
+window.tk.call("wm", "iconphoto", window._w, PhotoImage(file = "Images/Dictionary image_1.png"))
 
 
 # photo = PhotoImage(file = "Dictionary image_1.png")
@@ -21,7 +21,7 @@ frame = tk.Frame(window)
 frame.grid(row=10, column=3, padx=300, pady=20)
 
 
-logo = ImageTk.PhotoImage(Image.open("backdrop.jpeg"))
+logo = ImageTk.PhotoImage(Image.open("Images/backdrop.jpeg"))
 lb = tk.Label(frame, image=logo)
 lb.pack()
 
@@ -40,7 +40,7 @@ def start():
 start_frame = tk.Frame(window)
 start_frame.grid(row=12, column=3, padx=200,pady=100)
 
-start_btn_pic = ImageTk.PhotoImage(Image.open("Get started image.png"))
+start_btn_pic = ImageTk.PhotoImage(Image.open("Images/Get started image.png"))
 start_btn = tk.Button(start_frame, image=start_btn_pic,borderwidth=0, command = start)
 start_btn.pack() 
 

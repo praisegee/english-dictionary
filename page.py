@@ -10,22 +10,19 @@ from tkinter import DISABLED, NORMAL, StringVar, ttk
 from tkinter import messagebox as mb
 from PIL import Image, ImageTk
 import execute as source
-import pygame as pg
+
 def page():
     root = tk.Tk()
-    root.tk.call("wm", "iconphoto", root._w, PhotoImage(file = "Dictionary image_1.png"))
+    root.tk.call("wm", "iconphoto", root._w, PhotoImage(file = "Images/Dictionary image_1.png"))
     # frame = tk.Frame()
     # label = tk.Label(frame)
     # frame.place(x=100, y=100 )
     root.geometry("880x600")
     root.config(bg="Sky blue")
     root.title("Dictionary")
-    root.resizable(height=False, width=False)
+    # root.resizable(height=False, width=False)
     word_label= tk.Label(text="Word:", bg="Sky Blue")
-    word_label.place(x=200, y=50 )
-
-    speaker = speak.init()
-    # speak.speak("Hello, and welcome to my Dictionary")
+    word_label.place(x=200, y=50)
 
     def default(event):
         word_entry.config(state=NORMAL)
@@ -51,6 +48,10 @@ def page():
 
     
     # print(size_scale.get())
+    font_frame = tk.LabelFrame(root, text="Font size")
+    font_frame.place(x=782,y=200)
+    font_frame.config(bg="Sky blue")
+
     size_entry = tk.Entry(text='')
     size_entry.config(width=4)
     def track(x):
@@ -58,10 +59,10 @@ def page():
         size_entry.insert(0,int(size_scale.get()))
         meaning.config(font=(font_var.get().lower(),int(size_scale.get())))
     size_entry.place(x=805, y=160, height=20)
-    size_scale = ttk.Scale(orient=VERTICAL, from_=100, to=1, value=20,command=track)
+    size_scale = ttk.Scale(font_frame, orient=VERTICAL, from_=100, to=1, value=20,command=track)
     size_entry.insert(0,int(size_scale.get()))
 
-    size_scale.place(x=810,y=200, width=20, height=220)
+    size_scale.pack(pady=20)
 
     def bind(event):
         try:
@@ -71,7 +72,10 @@ def page():
             size_entry.insert(0,int(size_scale.get()))
             meaning.config(font=(font_var.get().lower(), int(size_scale.get())))
         except _tkinter.TclError:
-            mb.showerror("Sorry,\n You entered invalid font size!")   
+            mb.showerror(title= "Invalid Input", message="Sorry,\nYou entered invalid font size!")   
+            size_entry.delete(0, "end")
+            size_entry.insert("end", 20)
+
 
 
     fonts = [
@@ -91,8 +95,8 @@ def page():
 
     size_entry.bind("<Return>", bind)
 
-    font_label = tk.Label(text="Font")
-    font_label.place(x=810, y=450)
+    font_label = tk.Label(text="Font:")
+    font_label.place(x=745, y=14)
     font_label.config(bg="Sky blue")
         
 
@@ -195,10 +199,10 @@ def page():
     play_frame = tk.Frame(root)
 
     # pictures
-    back_pic = ImageTk.PhotoImage(Image.open("back.jpeg"))
-    front_pic = ImageTk.PhotoImage(Image.open("back - Copy.jpeg"))
+    back_pic = ImageTk.PhotoImage(Image.open("Images/back.jpeg"))
+    front_pic = ImageTk.PhotoImage(Image.open("Images/back - Copy.jpeg"))
 
-    play_pic = ImageTk.PhotoImage(Image.open("play.jpeg"))
+    play_pic = ImageTk.PhotoImage(Image.open("Images/play.jpeg"))
 
     back_btn = tk.Button(back_frame,image=back_pic, borderwidth=0, command=back)
     back_btn.pack()
@@ -208,7 +212,7 @@ def page():
 
 
     # call button
-    speech_picture = PhotoImage(file = "Search Button.png")
+    speech_picture = PhotoImage(file = "Images/Search Button.png")
     search_btn = tk.Button(root,image=speech_picture,borderwidth=0,command=lambda : call(call))
     search_btn.place(x=555, y=50)
     # speech button
