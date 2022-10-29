@@ -10,6 +10,7 @@ import pyttsx3 as speak
 window = tk.Tk()
 
 window.geometry("800x500")
+window.config(bg="white")
 # window.config(bg="Light Grey")
 window.title("Welcome")
 window.tk.call("wm", "iconphoto", window._w, PhotoImage(file = "Images/Dictionary image_1.png"))

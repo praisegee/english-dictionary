@@ -25,6 +25,7 @@ def page():
     word_label.place(x=200, y=50)
 
     def default(event):
+
         word_entry.config(state=NORMAL)
         word_entry.delete(0,"end")
 
